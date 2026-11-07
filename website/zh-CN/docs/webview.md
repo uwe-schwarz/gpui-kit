@@ -137,7 +137,7 @@ let builder = wry::WebViewBuilder::new()
 
 ## Focus 与生命周期
 
-WebView 是**原生子视图**，不是 GPUI 绘制的 Element。它占据 GPUI layout 节点的 bounds，并接收浏览器原生输入。`WebView` 实现了 `Focusable`，包装层跟踪一个 `FocusHandle`。调用 `hide()` 时会先把 Focus 交回父视图；点击其 bounds 之外也会请求父视图取得 Focus。在 Linux 上，点击网页也会传给 GPUI，因此点击外部即关闭的 popover 和 menu 在点击网页时会关闭。界面同时使用 GPUI input 和浏览器 input 时，应验证实际键盘与 Focus 行为。
+WebView 是**原生子视图**，不是 GPUI 绘制的 Element。它占据 GPUI layout 节点的 bounds，并接收浏览器原生输入。`WebView` 实现了 `Focusable`，包装层跟踪一个 `FocusHandle`。调用 `hide()` 时会先把 Focus 交回父视图；点击其 bounds 之外也会请求父视图取得 Focus。在 Linux 上，点击网页也会传给 GPUI，因此点击外部即关闭的 popover 和 menu 在点击网页时会关闭。在 X11 上，键盘输入跟随点击而不是指针：点击网页后，网页取得 X 输入焦点，直到点击 GPUI 内容或隐藏视图为止；窗口拥有焦点时，`WebView::focus` 在代码中也能达到同样效果。网页持有键盘期间，GPUI 会把所在窗口报告为非活动状态。界面同时使用 GPUI input 和浏览器 input 时，应验证实际键盘与 Focus 行为。
 
 WebView 及其 handle 应在父窗口销毁前结束生命周期。销毁所属 Entity 会隐藏子视图，但克隆的 `WebViewHandle` 或帧内持有的克隆可能推迟原生视图销毁。销毁父窗口前应释放这些 handle。状态归属参见 [Entity](./entity)，窗口 handle 参见 [Window](./window)。
 
