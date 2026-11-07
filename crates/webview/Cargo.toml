@@ -25,7 +25,7 @@ doctest = false
 anyhow.workspace = true
 gpui-kit = { path = "../kit", version = "0.9.0", default-features = false }
 log = "0.4"
-wry = { version = "0.53.3", package = "lb-wry" }
+wry = "0.57.1"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 objc2 = { version = "0.6", optional = true }
